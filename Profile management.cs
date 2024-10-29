@@ -58,6 +58,27 @@ public class LoginService
         Console.WriteLine("Invalid credentials.");
         return null;
     }
+    
+    public void ViewSalesReport()
+    {
+        
+        
+            // Step 2: Select Dates
+            Console.WriteLine("Enter start date (yyyy-mm-dd):");
+            DateTime startDate = DateTime.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter end date (yyyy-mm-dd):");
+            DateTime endDate = DateTime.Parse(Console.ReadLine());
+
+            // Step 4: Select Criteria
+            Console.WriteLine("Enter criteria for the report (e.g., top selling plates):");
+            string criteria = Console.ReadLine();
+
+            // Step 5: Generate Report
+            SalesReport report = new SalesReport(startDate, endDate, criteria);
+            report.GenerateReport();
+        
+    }
 }
 
 class Program
@@ -78,6 +99,7 @@ class Program
         if (user != null)
         {
             Console.WriteLine($"Welcome, {user.Username}!");
+            LoginService.ViewSalesReport();
         }
         else
         {
