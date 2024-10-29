@@ -100,6 +100,7 @@ class Program
         {
             Console.WriteLine($"Welcome, {user.Username}!");
             LoginService.ViewSalesReport();
+            
         }
         else
         {
