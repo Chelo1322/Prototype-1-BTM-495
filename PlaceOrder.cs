@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace POSApp
@@ -7,9 +7,6 @@ namespace POSApp
     {
         static void Main(string[] args)
         {
-            Manager manager = new Manager("manager", "password");
-            manager.ViewSalesReport();
-            
             POSSystem pos = new POSSystem();
             bool running = true;
 
