@@ -1,59 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-public class Table
-{
-    public int TableNumber { get; set; }
-    public int Capacity { get; set; }
-    public bool IsOccupied { get; set; }
-    public string Status { get; set; } // "Available", "Occupied", etc.
-
-    public Table(int tableNumber, int capacity)
-    {
-        TableNumber = tableNumber;
-        Capacity = capacity;
-        IsOccupied = false;
-        Status = "Available";
-    }
-
-    public void UpdateStatus(string status)
-    {
-        Status = status;
-        IsOccupied = status == "Occupied";
-    }
-}
-
-public class Reservation
-{
-    public int ReservationId { get; set; }
-    public DateTime ReservationTime { get; set; }
-    public int NumberOfGuests { get; set; }
-    public string CustomerName { get; set; }
-
-    public Reservation(int id, DateTime time, int guests, string name)
-    {
-        ReservationId = id;
-        ReservationTime = time;
-        NumberOfGuests = guests;
-        CustomerName = name;
-    }
-}
-
-public class WaitlistEntry
-{
-    public string CustomerName { get; set; }
-    public DateTime AddedTime { get; set; }
-    public int EstimatedWaitTimeMinutes { get; set; }
-
-    public WaitlistEntry(string name, int waitTime)
-    {
-        CustomerName = name;
-        AddedTime = DateTime.Now;
-        EstimatedWaitTimeMinutes = waitTime;
-    }
-}
-
 public class Waitstaff
 {
     private List<Table> tables;
@@ -72,7 +16,7 @@ public class Waitstaff
         var reservation = reservations.FirstOrDefault(r => r.ReservationId == reservationId);
         if (reservation != null)
         {
-            Console.WriteLine($"Reservation verified for {reservation.CustomerName} at {reservation.ReservationTime}");
+            Console.WriteLine($"Reservation verified for {reservation.CustomerName} at {reservation.ReservationTime}.");
         }
         else
         {
@@ -82,8 +26,7 @@ public class Waitstaff
 
     public Table CheckTableAvailability(int requiredCapacity)
     {
-        var availableTable = tables.FirstOrDefault(t => t.Capacity >= requiredCapacity && t.Status == "Available");
-        return availableTable;
+        return tables.FirstOrDefault(t => t.Capacity >= requiredCapacity && t.Status == "Available");
     }
 
     public void AssignTable(Table table, string customerName)
@@ -109,8 +52,7 @@ public class Waitstaff
 
     public int CalculateEstimatedWaitTime()
     {
-        // Assume each table takes an average of 30 minutes per seating
-        int averageWaitTimePerTable = 30;
+        int averageWaitTimePerTable = 30; // Assume 30 minutes per table
         int occupiedTables = tables.Count(t => t.IsOccupied);
         return occupiedTables * averageWaitTimePerTable;
     }
@@ -150,46 +92,79 @@ public class Waitstaff
         {
             table.UpdateStatus("Available");
             Console.WriteLine($"Table {table.TableNumber} is now available.");
+            ReassignWaitlistToTable();
         }
     }
-}
 
-public class Program
-{
-    public static void Main(string[] args)
+    public void ModifyReservation(int reservationId, DateTime newTime, int newGuests, string newName)
     {
-        // Sample tables and reservations setup
-        var tables = new List<Table>
+        var reservation = reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+        if (reservation != null)
         {
-            new Table(1, 4),
-            new Table(2, 2),
-            new Table(3, 6)
-        };
-        var reservations = new List<Reservation>
-        {
-            new Reservation(101, DateTime.Now.AddMinutes(30), 2, "John Doe")
-        };
-
-        var waitstaff = new Waitstaff(tables, reservations);
-
-        // Trigger reservation verification
-        waitstaff.VerifyReservation(101);
-
-        // Check table availability
-        var availableTable = waitstaff.CheckTableAvailability(2);
-
-        // Assign the table and seat the customer
-        if (availableTable != null)
-        {
-            waitstaff.AssignTable(availableTable, "John Doe");
-            waitstaff.SeatCustomer(availableTable, "John Doe");
+            reservation.ReservationTime = newTime;
+            reservation.NumberOfGuests = newGuests;
+            reservation.CustomerName = newName;
+            Console.WriteLine($"Reservation {reservationId} updated.");
         }
         else
         {
-            waitstaff.AddToWaitlist("John Doe");
+            Console.WriteLine("Reservation not found.");
         }
+    }
 
-        // Free up the table after customer finishes dining
-        waitstaff.FreeTable(availableTable);
+    public void RemoveReservation(int reservationId)
+    {
+        var reservation = reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+        if (reservation != null)
+        {
+            reservations.Remove(reservation);
+            Console.WriteLine($"Reservation {reservationId} has been canceled.");
+        }
+        else
+        {
+            Console.WriteLine("Reservation not found.");
+        }
+    }
+
+    public void ViewAllReservations()
+    {
+        Console.WriteLine("\n---- Reservations ----");
+        foreach (var reservation in reservations)
+        {
+            Console.WriteLine($"ID: {reservation.ReservationId}, Name: {reservation.CustomerName}, Guests: {reservation.NumberOfGuests}, Time: {reservation.ReservationTime}");
+        }
+    }
+
+    public void ViewWaitlist()
+    {
+        Console.WriteLine("\n---- Waitlist ----");
+        foreach (var entry in waitlist)
+        {
+            Console.WriteLine($"Name: {entry.CustomerName}, Added: {entry.AddedTime}, Estimated Wait: {entry.EstimatedWaitTimeMinutes} minutes");
+        }
+    }
+
+    public void ReassignWaitlistToTable()
+    {
+        var nextWaitlistEntry = waitlist.FirstOrDefault();
+        if (nextWaitlistEntry != null)
+        {
+            var availableTable = CheckTableAvailability(1); // Assume any available table
+            if (availableTable != null)
+            {
+                AssignTable(availableTable, nextWaitlistEntry.CustomerName);
+                waitlist.Remove(nextWaitlistEntry);
+            }
+        }
+    }
+
+    public void ClearAllTables()
+    {
+        foreach (var table in tables)
+        {
+            table.UpdateStatus("Available");
+        }
+        Console.WriteLine("All tables have been cleared and set to available.");
     }
 }
+
