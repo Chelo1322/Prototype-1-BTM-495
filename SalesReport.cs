@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace POSSystem
@@ -80,4 +80,62 @@ namespace POSSystem
                    "Total Transactions: 150";
         }
     }
+
+public Inventory verifyItem(int itemId)
+{
+    foreach (var item in _inventoryList)
+    {
+        if (item.Id == Itemid)
+        {
+            return item;
+            }
+        }
+    return null;
+  } 
+
 }
+public Inventory getStock(int itemId)
+ {
+     foreach (var item in _inventoryList)
+     {
+         if (item.Id == itemid)
+         {
+             return item;
+             }
+         }
+     return null;
+   } 
+ public Order updateOrderQuantity(int Quantity)
+  {
+      if (_currentOrder != null)
+     {
+         // Update the quantity
+         _currentOrder.Quantity = quantity;
+         return _currentOrder; // Return the updated order
+    } 
+     return null, // Return null if there's no current order
+  }
+  public Order calculateTotal()
+    {
+        TotalCost = 0;
+        foreach (var item in Items)
+       {
+           TotalCost += item.TotalCost;
+      } 
+       return this, // Return null if there's no current order
+    }
+    public Order updateStock(int itemid)
+        {
+          if (currentInventoryItem == null)
+          throw new InvalidOperationException("No inventory item is selected.");
+          }
+          if (currentInventoryItem.StockQuantity ‹ newQuantity)
+          trow new InvalidOperationException("Not enough stock available.");
+          // Deduct the quantity from inventory stock
+          _current InventoryItem.StockQuantity -= newQuantity;
+          // Update the order
+          _currentorder. Quantity += newQuantity;
+          _currentorder. TotalCost - _currentorder. Quantity * _currentorder.Price;
+          return _currentorder, // Return the updated order
+        }
+ }
