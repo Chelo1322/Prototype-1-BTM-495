@@ -1,0 +1,242 @@
+namespace RestaurantApp
+{
+    partial class Form1
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        private void InitializeComponent()
+        {
+            this.listBoxTables = new System.Windows.Forms.ListBox();
+            this.btnSelectTable = new System.Windows.Forms.Button();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.btnPlaceOrder = new System.Windows.Forms.Button();
+            this.btnClearSelection = new System.Windows.Forms.Button();
+            this.btnViewOrderSummary = new System.Windows.Forms.Button();
+            this.listBoxUnpaidTables = new System.Windows.Forms.ListBox();
+            this.btnProcessPayment = new System.Windows.Forms.Button();
+            this.comboBoxPaymentMethod = new System.Windows.Forms.ComboBox();
+            this.btnGenerateReceipt = new System.Windows.Forms.Button();
+            this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.btnViewSalesReport = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // listBoxTables
+            // 
+            this.listBoxTables.FormattingEnabled = true;
+            this.listBoxTables.ItemHeight = 16;
+            this.listBoxTables.Items.AddRange(new object[] {
+            "Table 1",
+            "Table 2",
+            "Table 3",
+            "Table 4",
+            "Table 5"});
+            this.listBoxTables.Location = new System.Drawing.Point(14, 13);
+            this.listBoxTables.Name = "listBoxTables";
+            this.listBoxTables.Size = new System.Drawing.Size(137, 84);
+            this.listBoxTables.TabIndex = 0;
+            // 
+            // btnSelectTable
+            // 
+            this.btnSelectTable.Location = new System.Drawing.Point(158, 13);
+            this.btnSelectTable.Name = "btnSelectTable";
+            this.btnSelectTable.Size = new System.Drawing.Size(114, 32);
+            this.btnSelectTable.TabIndex = 1;
+            this.btnSelectTable.Text = "Select Table";
+            this.btnSelectTable.UseVisualStyleBackColor = true;
+            this.btnSelectTable.Click += new System.EventHandler(this.btnSelectTable_Click);
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "Sashimi",
+            "Shrimp",
+            "Fried Rice",
+            "Steamed Rice",
+            "Salmon",
+            "Chicken Noodle",
+            "Dumplings",
+            "Fried Chicken"});
+            this.checkedListBox1.Location = new System.Drawing.Point(12, 167);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(162, 174);
+            this.checkedListBox1.TabIndex = 2;
+            // 
+            // btnPlaceOrder
+            // 
+            this.btnPlaceOrder.Location = new System.Drawing.Point(14, 425);
+            this.btnPlaceOrder.Name = "btnPlaceOrder";
+            this.btnPlaceOrder.Size = new System.Drawing.Size(137, 32);
+            this.btnPlaceOrder.TabIndex = 3;
+            this.btnPlaceOrder.Text = "Place Order";
+            this.btnPlaceOrder.UseVisualStyleBackColor = true;
+            this.btnPlaceOrder.Click += new System.EventHandler(this.btnPlaceOrder_Click);
+            // 
+            // btnClearSelection
+            // 
+            this.btnClearSelection.Location = new System.Drawing.Point(12, 347);
+            this.btnClearSelection.Name = "btnClearSelection";
+            this.btnClearSelection.Size = new System.Drawing.Size(137, 32);
+            this.btnClearSelection.TabIndex = 4;
+            this.btnClearSelection.Text = "Clear Selection";
+            this.btnClearSelection.UseVisualStyleBackColor = true;
+            this.btnClearSelection.Click += new System.EventHandler(this.btnClearSelection_Click);
+            // 
+            // btnViewOrderSummary
+            // 
+            this.btnViewOrderSummary.Location = new System.Drawing.Point(14, 479);
+            this.btnViewOrderSummary.Name = "btnViewOrderSummary";
+            this.btnViewOrderSummary.Size = new System.Drawing.Size(137, 32);
+            this.btnViewOrderSummary.TabIndex = 5;
+            this.btnViewOrderSummary.Text = "View Summary";
+            this.btnViewOrderSummary.UseVisualStyleBackColor = true;
+            this.btnViewOrderSummary.Click += new System.EventHandler(this.btnViewOrderSummary_Click);
+            // 
+            // listBoxUnpaidTables
+            // 
+            this.listBoxUnpaidTables.FormattingEnabled = true;
+            this.listBoxUnpaidTables.ItemHeight = 16;
+            this.listBoxUnpaidTables.Items.AddRange(new object[] {
+            " ",
+            "   ",
+            "      Make a payment"});
+            this.listBoxUnpaidTables.Location = new System.Drawing.Point(741, 28);
+            this.listBoxUnpaidTables.Name = "listBoxUnpaidTables";
+            this.listBoxUnpaidTables.Size = new System.Drawing.Size(137, 84);
+            this.listBoxUnpaidTables.TabIndex = 6;
+            // 
+            // btnProcessPayment
+            // 
+            this.btnProcessPayment.Location = new System.Drawing.Point(741, 283);
+            this.btnProcessPayment.Name = "btnProcessPayment";
+            this.btnProcessPayment.Size = new System.Drawing.Size(137, 32);
+            this.btnProcessPayment.TabIndex = 7;
+            this.btnProcessPayment.Text = "Process Payment";
+            this.btnProcessPayment.UseVisualStyleBackColor = true;
+            this.btnProcessPayment.Click += new System.EventHandler(this.btnProcessPayment_Click);
+            // 
+            // comboBoxPaymentMethod
+            // 
+            this.comboBoxPaymentMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPaymentMethod.FormattingEnabled = true;
+            this.comboBoxPaymentMethod.Items.AddRange(new object[] {
+            "Cash",
+            "Card"});
+            this.comboBoxPaymentMethod.Location = new System.Drawing.Point(741, 244);
+            this.comboBoxPaymentMethod.Name = "comboBoxPaymentMethod";
+            this.comboBoxPaymentMethod.Size = new System.Drawing.Size(137, 24);
+            this.comboBoxPaymentMethod.TabIndex = 8;
+            // 
+            // btnGenerateReceipt
+            // 
+            this.btnGenerateReceipt.Location = new System.Drawing.Point(741, 132);
+            this.btnGenerateReceipt.Name = "btnGenerateReceipt";
+            this.btnGenerateReceipt.Size = new System.Drawing.Size(137, 32);
+            this.btnGenerateReceipt.TabIndex = 9;
+            this.btnGenerateReceipt.Text = "Generate Receipt";
+            this.btnGenerateReceipt.UseVisualStyleBackColor = true;
+            this.btnGenerateReceipt.Click += new System.EventHandler(this.btnGenerateReceipt_Click);
+            // 
+            // dateTimePickerStart
+            // 
+            this.dateTimePickerStart.Location = new System.Drawing.Point(678, 393);
+            this.dateTimePickerStart.Name = "dateTimePickerStart";
+            this.dateTimePickerStart.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePickerStart.TabIndex = 10;
+            // 
+            // dateTimePickerEnd
+            // 
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(678, 435);
+            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePickerEnd.TabIndex = 11;
+            // 
+            // btnViewSalesReport
+            // 
+            this.btnViewSalesReport.Location = new System.Drawing.Point(678, 479);
+            this.btnViewSalesReport.Name = "btnViewSalesReport";
+            this.btnViewSalesReport.Size = new System.Drawing.Size(200, 32);
+            this.btnViewSalesReport.TabIndex = 12;
+            this.btnViewSalesReport.Text = "View Sales Report";
+            this.btnViewSalesReport.UseVisualStyleBackColor = true;
+            this.btnViewSalesReport.Click += new System.EventHandler(this.btnViewSalesReport_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(741, 206);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(137, 32);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "Method Of Payment";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.Info;
+            this.button2.Location = new System.Drawing.Point(24, 118);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(137, 32);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "MENU";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.ClientSize = new System.Drawing.Size(1010, 543);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnViewSalesReport);
+            this.Controls.Add(this.dateTimePickerEnd);
+            this.Controls.Add(this.dateTimePickerStart);
+            this.Controls.Add(this.btnGenerateReceipt);
+            this.Controls.Add(this.comboBoxPaymentMethod);
+            this.Controls.Add(this.btnProcessPayment);
+            this.Controls.Add(this.listBoxUnpaidTables);
+            this.Controls.Add(this.btnViewOrderSummary);
+            this.Controls.Add(this.btnClearSelection);
+            this.Controls.Add(this.btnPlaceOrder);
+            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.btnSelectTable);
+            this.Controls.Add(this.listBoxTables);
+            this.Name = "Form1";
+            this.Text = "Restaurant App";
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.ListBox listBoxTables;
+        private System.Windows.Forms.Button btnSelectTable;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.Button btnPlaceOrder;
+        private System.Windows.Forms.Button btnClearSelection;
+        private System.Windows.Forms.Button btnViewOrderSummary;
+        private System.Windows.Forms.ListBox listBoxUnpaidTables;
+        private System.Windows.Forms.Button btnProcessPayment;
+        private System.Windows.Forms.ComboBox comboBoxPaymentMethod;
+        private System.Windows.Forms.Button btnGenerateReceipt;
+        private System.Windows.Forms.DateTimePicker dateTimePickerStart;
+        private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
+        private System.Windows.Forms.Button btnViewSalesReport;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+    }
+}
