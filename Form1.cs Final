@@ -1,0 +1,225 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace RestaurantApp
+{
+    public partial class Form1 : Form
+    {
+        private List<string> orderHistory = new List<string>();
+        private Dictionary<string, decimal> dishPrices = new Dictionary<string, decimal>
+        {
+            { "Sashimi", 12.99m },
+            { "Shrimp", 14.50m },
+            { "Fried Rice", 8.99m },
+            { "Steamed Rice", 6.99m },
+            { "Salmon", 15.99m },
+            { "Chicken Noodle", 9.99m },
+            { "Dumplings", 7.50m },
+            { "Fried Chicken", 10.99m }
+        };
+
+        private Dictionary<string, decimal> unpaidTables = new Dictionary<string, decimal>();
+        private string selectedTable = null;
+
+        public Form1()
+        {
+            InitializeComponent();
+            AddQuantityControls();
+        }
+
+        private void AddQuantityControls()
+        {
+            int yPosition = 110;
+            foreach (string dish in checkedListBox1.Items)
+            {
+                NumericUpDown quantityControl = new NumericUpDown
+                {
+                    Name = $"quantity_{dish.Replace(" ", "_")}",
+                    Location = new System.Drawing.Point(250, yPosition),
+                    Size = new System.Drawing.Size(60, 20),
+                    Minimum = 0,
+                    Maximum = 99
+                };
+
+                this.Controls.Add(quantityControl);
+                yPosition += 24;
+            }
+        }
+
+        private void btnSelectTable_Click(object sender, EventArgs e)
+        {
+            if (listBoxTables.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a table before proceeding.", "Table Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            selectedTable = listBoxTables.SelectedItem.ToString();
+            MessageBox.Show($"Table {selectedTable} selected. You can now place your order.", "Table Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnPlaceOrder_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(selectedTable))
+            {
+                MessageBox.Show("Please select a table before placing an order.", "Order Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string orderDetails = string.Empty;
+            decimal totalCost = 0;
+
+            foreach (var item in checkedListBox1.CheckedItems)
+            {
+                string dish = item.ToString();
+                NumericUpDown quantityControl = (NumericUpDown)Controls[$"quantity_{dish.Replace(" ", "_")}"];
+                int quantity = (int)quantityControl.Value;
+
+                if (quantity > 0)
+                {
+                    decimal cost = dishPrices[dish] * quantity;
+                    orderDetails += $"{dish} (x{quantity}) - ${cost:0.00}\n";
+                    totalCost += cost;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(orderDetails))
+            {
+                MessageBox.Show("Please select at least one dish and specify a quantity to place the order.", "Order Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string orderSummary = $"Table: {selectedTable}\nOrder placed at {DateTime.Now}:\n{orderDetails}Total: ${totalCost:0.00}\n";
+            orderHistory.Add(orderSummary);
+            File.AppendAllText("OrderHistory.txt", orderSummary + "\n");
+
+            unpaidTables[selectedTable] = totalCost;
+            UpdateUnpaidTablesList();
+
+            MessageBox.Show($"Your order has been sent to the kitchen:\n\n{orderSummary}", "Order Placed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnClearSelection_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                checkedListBox1.SetItemChecked(i, false);
+                string dish = checkedListBox1.Items[i].ToString();
+                NumericUpDown quantityControl = (NumericUpDown)Controls[$"quantity_{dish.Replace(" ", "_")}"];
+                quantityControl.Value = 0;
+            }
+
+            MessageBox.Show("Selections cleared successfully.", "Clear Selection", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnGenerateReceipt_Click(object sender, EventArgs e)
+        {
+            if (listBoxUnpaidTables.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a table to generate a receipt.", "Receipt Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string table = listBoxUnpaidTables.SelectedItem.ToString();
+            if (!unpaidTables.ContainsKey(table))
+            {
+                MessageBox.Show("No payment found for the selected table.", "Receipt Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            decimal amountDue = unpaidTables[table];
+            string receipt = $"*** Restaurant Receipt ***\n" +
+                             $"Table: {table}\n" +
+                             $"Date: {DateTime.Now}\n" +
+                             $"Total Amount: ${amountDue:0.00}\n" +
+                             $"****************************";
+
+            MessageBox.Show(receipt, "Receipt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnViewOrderSummary_Click(object sender, EventArgs e)
+        {
+            if (orderHistory.Count == 0)
+            {
+                MessageBox.Show("No orders have been placed yet.", "Order Summary", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string summary = string.Join("\n", orderHistory);
+            MessageBox.Show(summary, "Order Summary", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnProcessPayment_Click(object sender, EventArgs e)
+        {
+            if (listBoxUnpaidTables.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a table to process payment.", "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (comboBoxPaymentMethod.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a payment method (Cash or Card).", "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string table = listBoxUnpaidTables.SelectedItem.ToString();
+            decimal amountDue = unpaidTables[table];
+            string paymentMethod = comboBoxPaymentMethod.SelectedItem.ToString();
+
+            MessageBox.Show($"Payment of ${amountDue:0.00} processed for {table} using {paymentMethod}.", "Payment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            unpaidTables.Remove(table);
+            UpdateUnpaidTablesList();
+        }
+
+        private void btnViewSalesReport_Click(object sender, EventArgs e)
+        {
+            DateTime startDate = dateTimePickerStart.Value.Date;
+            DateTime endDate = dateTimePickerEnd.Value.Date;
+
+            if (startDate > endDate)
+            {
+                MessageBox.Show("Start date must be before or the same as the end date.", "Date Range Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var filteredOrders = orderHistory
+                .Where(order =>
+                {
+                    string[] lines = order.Split('\n');
+                    string dateLine = lines.FirstOrDefault(line => line.StartsWith("Order placed at"));
+                    if (dateLine == null) return false;
+
+                    string dateString = dateLine.Replace("Order placed at", "").Trim();
+                    if (DateTime.TryParse(dateString, out DateTime orderDate))
+                    {
+                        return orderDate.Date >= startDate && orderDate.Date <= endDate;
+                    }
+                    return false;
+                })
+                .ToList();
+
+            if (filteredOrders.Count == 0)
+            {
+                MessageBox.Show("No orders found for the selected date range.", "Sales Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string report = string.Join("\n", filteredOrders);
+            MessageBox.Show(report, "Sales Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void UpdateUnpaidTablesList()
+        {
+            listBoxUnpaidTables.Items.Clear();
+            foreach (var table in unpaidTables.Keys)
+            {
+                listBoxUnpaidTables.Items.Add(table);
+            }
+        }
+    }
+}
